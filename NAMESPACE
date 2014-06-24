@@ -1,3 +1,3 @@
 exportPattern("^[[:alpha:]]+")
-importFrom("cluster", pam)
+importFrom("matrixStats", logSumExp)
 import("network")

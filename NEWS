@@ -1,0 +1,15 @@
+CHANGES IN bingat VERSION 1.1
+
+CHANGES
+
+* Made glrtReg and glmReg functions internal since they should only be called from the glrtPvalue function. 
+
+* Change the initial clustering in the getGibbsMixture from pam to random sampling.
+
+
+BUG FIXES
+
+* Fixed a bug in getGibbsMixture and getLoglikeMixture where large graphs would cause errors or 0 to return.
+
+* Fixed a bug in glrtPvalue where the tau and gstar weren't being computed correctly in some instances.
+

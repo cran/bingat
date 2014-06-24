@@ -8,7 +8,8 @@ stop("maxIter must be an integer greater than 0.")
 
 nodes <- getNumNodes(data, type)
 edges <- getNumEdges(nodes, type)
-groups <- pam(t(data), desiredGroups, cluster.only=TRUE)
+groups <- sample(1:desiredGroups, ncol(data), replace=TRUE)
+
 gstars <- list()
 weights <- NULL
 taus <- NULL
@@ -30,15 +31,16 @@ for(iter in 1:maxIter){
 #Calculate distances to the gstars
 distances <- matrix(NA, ncol(data), desiredGroups)
 for(j in 1:desiredGroups)
-distances[,j] <- apply(data, 2, function(x){calcDistance(x, gstars[[j]], type)}) 
+distances[,j] <- apply(data, 2, function(x){calcDistance(x, gstars[[j]], type)})
 
-num <- matrix(NA, ncol(data), desiredGroups)
-for(j in 1:desiredGroups){
-for(i in 1:ncol(data))
-num[i, j] <- (1+exp(-taus[j]))^(-edges) * exp(-taus[j]*distances[i, j]) * weights[j]
-}  
-den <- apply(num, 1, sum)
-pij <- num/den
+t <- matrix(NA, ncol(data), desiredGroups)
+pij <- matrix(NA, ncol(data), desiredGroups)
+for(i in 1:ncol(data)){
+for(j in 1:desiredGroups)
+t[i, j] <- -edges*log(1 + exp(-taus[j])) - taus[j]*distances[i, j] + log(weights[j])
+for(j in 1:desiredGroups)
+pij[i, j] <- 1/sum(exp(t[i,] - t[i, j]))
+}
 
 #Check for covergence and quit if true
 if(gcheck + tcheck + wcheck == 0){
@@ -57,13 +59,14 @@ for(j in 1:desiredGroups){
 weights2[j] <- sum(pij[,j]) / ncol(data)
 gnum <- apply(t(data)*pij[,j], 2, sum)
 gdem <- sum(pij[,j])
-gstars2[[j]] <- ifelse(gnum/gdem > 0.5, 1, 0)  
+gstars2[[j]] <- ifelse(gnum/gdem > cutoff, 1, 0)  
 distj <- apply(data, 2, function(x){calcDistance(x, gstars2[[j]], type)})
+
 tnum <- sum(pij[,j] * distj)
 tdem <- sum(pij[,j] * edges) - tnum
 tfrac <- tnum/tdem
-if(round(tfrac, 30) == 0)
-tfrac <- 1e-30
+tfrac <- ifelse(tfrac==0, .Machine$double.xmin, tfrac)
+
 taus2[j] <- -log(tfrac) 
 }
 

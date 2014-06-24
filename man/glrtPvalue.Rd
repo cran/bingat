@@ -37,7 +37,4 @@
 	
 	btrue <- glrtPvalue(braingraphs, "adjMatrix", grps, TRUE, numBootStraps) 
 	btrue
-	
-	bfalse <- glrtPvalue(braingraphs, "adjMatrix", grps, FALSE, numBootStraps) 
-	bfalse
 }

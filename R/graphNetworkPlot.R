@@ -7,14 +7,14 @@ stop("data and/or type is missing.")
 if(missing(groupCounts)){
 myColors <- "red"
 }else{
-allColors <- rainbow((length(groupCounts)+1))
+allColors <- rainbow(length(groupCounts)+1)
 myColors <- NULL
 for(i in 1:length(groupCounts))
 myColors <- c(myColors, rep(allColors[i], groupCounts[i]))
 }
 
 #Take only the first column of data if it is multi columned
-if(!is.numeric(data))
+if(class(data) == "data.frame" || class(data) == "matrix")
 data <- data[,1]
 
 y <- vec2mat(data, type)
@@ -25,5 +25,5 @@ network.vertex.names(g) <- as.data.frame(labels)
 plot(g, mode="circle", vertex.col=myColors, label=network.vertex.names(g), main=main, edge.col="black")
 
 if(!missing(groupLabels))
-legend("topright", inset=.005, legend=groupLabels, fill=allColors, horiz=FALSE)
+legend("topright", legend=groupLabels, fill=allColors, horiz=FALSE)
 }

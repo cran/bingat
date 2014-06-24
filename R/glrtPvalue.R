@@ -1,7 +1,7 @@
 glrtPvalue <-
 function(data, type, groups, PBmethod=FALSE, bootstraps=10, cutoff=.5){
 if(missing(data) || missing(type) || missing(groups))
-stop("data, type, and/or grps is missing.")
+stop("data, type, and/or groups is missing.")
 
 if(bootstraps <= 0)
 stop("bootstraps must be an integer greater than 0.")
@@ -21,27 +21,27 @@ names(glrt) <- "GLRT"
 bootsample <- 1:bootstraps
 
 if(PBmethod){ #Parametric Bootstrap
-reg.coeff.H0 <- glmReg(data, type, cutoff=cutoff)
+reg.coeff.H0 <- glmReg(data, type, rep(0, ncol(data)), cutoff)
 b0.H0 <- reg.coeff.H0$b0.covs0
 tau.H0 <- reg.coeff.H0$tau
 
-GLRT.bootstrap <- apply(as.matrix(bootsample), 1, function(x, gstar, tau, N, cov, type, co){
-data.MC <- rGibbs(numGraphs=N, gstar=gstar, tau=tau, type=type)
-glrt.mc <- glrtReg(data.MC, type, cov, co)
+GLRT.bootstrap <- apply(as.matrix(bootsample), 1, function(x, gstar, tau, N, grps, type, co){
+data.MC <- rGibbs(gstar, tau, type, N)
+glrt.mc <- glrtReg(data.MC, type, grps, co)
 return(glrt.mc)
-},gstar=b0.H0, tau=tau.H0, N=ncol(data), cov=groups, type=type, co=cutoff)
+},gstar=b0.H0, tau=tau.H0, N=ncol(data), grps=groups, type=type, co=cutoff)
 }else{ #Nonparametric Bootstrap: Resampling with replacement
 x1 <- sum(groups==1)
 x2 <- sum(groups==0)
 
-GLRT.bootstrap <- apply(as.matrix(bootsample), 1, function(x, x1, x2, data, cov, type, co){
+GLRT.bootstrap <- apply(as.matrix(bootsample), 1, function(x, x1, x2, data, grps, type, co){
 p1 <- sample(x1+x2, replace=TRUE)
 data1b <- data[,p1[c(1:x1)]]
 data2b <- data[,p1[c((x1+1):(x1+x2))]]
 dataMCnp <- cbind(data1b, data2b)
-glrt.mcnp <- glrtReg(dataMCnp, type, cov, co)
+glrt.mcnp <- glrtReg(dataMCnp, type, grps, co)
 return(glrt.mcnp)
-},x1=x1, x2=x2, data=data, cov=groups, type=type, co=cutoff)
+}, x1=x1, x2=x2, data=data, grps=groups, type=type, co=cutoff)
 }
 
 p.value <- list(sum(GLRT.bootstrap >= glrt)/bootstraps)

@@ -27,5 +27,4 @@
 	data(braingraphs)
 
 	braingm <- getGibbsMixture(braingraphs, "adjMatrix", 5) 
-	braingm
 }

@@ -19,7 +19,7 @@ distProb <- exp(lgamma(edges+1) - lgamma(edges-possEdges+1) - lgamma(possEdges+1
 gdists <- sample(possEdges, numGraphs, replace=TRUE, prob=distProb)
 
 #Take our starting graph and randomly flip-flop k nodes to get a graph k-distance away
-genData <- matrix(gstar, nrow=length(gstar), ncol=numGraphs)
+genData <- matrix(gstar, length(gstar), numGraphs)
 for(i in 1:numGraphs){ 
 nodesChange <- sample(1:length(gstar), gdists[i], replace=FALSE)
 genData[nodesChange, i] <- 1*!genData[nodesChange, i]
