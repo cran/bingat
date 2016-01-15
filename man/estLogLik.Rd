@@ -7,13 +7,13 @@
 \usage{estLogLik(data, type, g, tau)}
 
 \arguments{
-  \item{data}{A data frame in which the columns contain a 0/1 value for each node in the rows.}
-  \item{type}{The type of graph being used.}
+  \item{data}{A data frame in which the columns (subjects) contain a 0/1 value for row (Node or Edge).}
+  \item{type}{The type of graph being used (adjmatrix or adjmatrixlt).}
   \item{g}{A single columned data frame to estimate the likelihood for.}
   \item{tau}{A single value used in estimating the likelihood.}
 }
 
-\value{The likelihood value of the input graph g.}
+\value{The log-likelihood value of the data.}
 
 \author{Terrence Brooks, Berkley Shands, Skye Buckner-Petty, Patricio S. La Rosa, Elena Deych, William D. Shannon}
 

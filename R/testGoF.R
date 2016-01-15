@@ -1,10 +1,13 @@
 testGoF <-
-function(data, type, plot=TRUE, cutoff=.5, main){
+function(data, type, numSims=10, plot=TRUE,  main){
 if(missing(data) || missing(type))
 stop("data and/or type is missing.")
 
+if(numSims <= 0)
+stop("The number of simulations must be an integer greater than 0.")
+
 numGraphs <- ncol(data)
-gstar <- estGStar(data, cutoff)
+gstar <- estGStar(data)
 tau <- estTau(data, type, gstar)
 nodes <- getNumNodes(data, type)
 edges <- getNumEdges(nodes, type)
@@ -23,14 +26,16 @@ obsCounts <- cbind(as.integer(names(distTable)), as.integer(distTable))
 obsExpCounts <- merge(expCounts, obsCounts, by=1, all=TRUE)
 colnames(obsExpCounts) <- c("dist", "expected", "observed")
 obsExpCounts[is.na(obsExpCounts)] <- 0
+methodA <- "Chisq"
 
 #Combine distances with a theoretical count < 5 (1 if there aren't enough at 5)
 signifExpect <- obsExpCounts$expected >= 5 
 if(sum(signifExpect) <= 1){
 signifExpect <- obsExpCounts$expected >= 1
 if(sum(signifExpect) < 1){
-stop("Expected counts below the threshold of 1")
+stop("Expected counts below the threshold of 1. Goodness of fit cannot be calculated")
 }else{
+methodA <- "MC"
 warning("Expected counts below the threshold of 5; threshold lowered to 1 \n 
 P-value computed using Monte-Carlo simulation instead of asymptotic distribution.")
 }
@@ -54,10 +59,9 @@ rownames(oTable) <- c(paste("<=", obsExpCounts[lowerBound, 1]), obsExpCounts[sig
 #Compute Pearson Chi-Squared Statistics
 pearsonStats <- sum(((oTable$observed-oTable$expected)^2)/oTable$expected)
 df <- nrow(oTable)-1
-pvalueP <- pchisq(pearsonStats, df=df, ncp=0, lower.tail=FALSE, log.p=FALSE)
 
 #Compute the Chi-Squared Statistics
-chisq <- chisq.test(oTable$observed, p=oTable$expected/numGraphs, simulate.p.value=TRUE, B=2000)
+chisq <- chisq.test(oTable$observed, p=oTable$expected/numGraphs, simulate.p.value=ifelse(methodA=="MC",TRUE,FALSE), B=numSims)
 pvalueC <- chisq$p.value
 
 #Compute the G Statistics if needed
@@ -74,6 +78,9 @@ gStats <- NA
 pvalueG <- NA
 }
 
+pval <- ifelse(is.na(pvalueG), pvalueC, pvalueG)
+ptype <- ifelse(is.na(pvalueG), ifelse(methodA=="MC", "Monte-Carlo simulation", "Pearson Chi-square"), "G-test Statistics")
+
 #Plot the observed vs expected data
 if(plot){
 mycolor <- c("red", "blue")
@@ -83,12 +90,12 @@ dist <- obsExpCounts[signifExpect, 1]
 matplot(dist, oTable, pch=19, type="p", col=mycolor)
 legend("topright", legend=mylegend, col=mycolor, pch=19)
 if(missing(main))
-title(c(paste("Pearson Chi-square:", round(pearsonStats, 2)), paste("P-value:", round(pvalueP, 2))))
+title(c(paste(ptype), paste("P-value:", round(pval, 2))))
 else
 title(main)
 }
 
-results<- list(pearsonStats, df, pvalueP, gStats, pvalueG, chisq, pvalueC, oTable)
-names(results) <- c("pearson", "df", "pvalueP", "gstats", "pvalueG",  "chisq", "pvalueC", "table")
+results<- list(ptype, df, pval, oTable)
+names(results) <- c("Method", "df", "pvalue",  "table")
 return(results)
 }

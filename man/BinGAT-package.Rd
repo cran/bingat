@@ -5,9 +5,10 @@
 \title{Binary Graph Analysis Tools}
 
 \description{
-	This package provides tools for: Calculating the MLE of a set of binary graphs,
-	Generating random binary graphs sampled from the Gibb's distribution, and
-	Doing regression analysis of a set of binary graphs.
+	Tools for analyzing binary graphs, including calculating the MLE of a set of binary graphs, 
+	comparing MLE of sets of graphs, regression analysis on sets of graphs, using genetic algorithm 
+	to identify nodes and edges separating sets of graphs, and generating random binary graphs 
+	sampled from the Gibbs distribution.
 }
 
 \details{
@@ -19,6 +20,18 @@
 	}	
 }
 
+\references{
+	\enumerate{
+		\item Stat Med. 2015 Nov 25. doi: 10.1002/sim.6757.
+				Gibbs distribution for statistical analysis of graphical data with a sample application to fcMRI brain images.
+				La Rosa PS1,2, Brooks TL1, Deych E1, Shands B1,3, Prior F4, Larson-Prior LJ4,5, Shannon WD1,3.
+	}
+}
+
 \author{Terrence Brooks, Berkley Shands, Skye Buckner-Petty, Patricio S. La Rosa, Elena Deych, William D. Shannon}
 
 \keyword{ package }
+
+
+
+

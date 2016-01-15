@@ -1,3 +1,5 @@
 exportPattern("^[[:alpha:]]+")
-importFrom("matrixStats", logSumExp)
-import("network")
+importFrom("grDevices", "colorRampPalette", "palette", "rainbow", "topo.colors")
+importFrom("graphics", "image", "legend", "matplot", "plot", "points", "segments", "text", "title")
+importFrom("stats", "chisq.test", "cmdscale", "cor", "dist", "pchisq", "setNames")
+importFrom("foreach", "%dopar%")

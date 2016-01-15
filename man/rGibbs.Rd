@@ -7,9 +7,9 @@
 \usage{rGibbs(gstar, tau, type, numGraphs = 1)}
 
 \arguments{
-  \item{gstar}{A vector of a single graph.}
+  \item{gstar}{G star vector.}
   \item{tau}{A single value that affects the dispersion of the generated data.}
-  \item{type}{The type of graph being used.}
+  \item{type}{The type of graph being used (adjmatrix or adjmatrixlt).}
   \item{numGraphs}{The number of graphs to generate.}
 }
 

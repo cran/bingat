@@ -7,8 +7,8 @@
 \usage{getNumNodes(data, type)}
 
 \arguments{
-  \item{data}{A data frame in which the columns contain a 0/1 value for each node in the rows.}
-  \item{type}{The type of graph being used.}
+  \item{data}{A data frame in which the columns (subjects) contain a 0/1 value for row (Node or Edge).}
+  \item{type}{The type of graph being used (adjmatrix or adjmatrixlt).}
 }
 
 \value{The number of individual nodes in the given graph.}

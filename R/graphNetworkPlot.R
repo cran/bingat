@@ -18,11 +18,11 @@ if(class(data) == "data.frame" || class(data) == "matrix")
 data <- data[,1]
 
 y <- vec2mat(data, type)
-g <- network(as.matrix(y), directed=FALSE)
+g <- network::network(as.matrix(y), directed=FALSE)
 if(!missing(labels))
-network.vertex.names(g) <- as.data.frame(labels)
+network::network.vertex.names(g) <- as.data.frame(labels)
 
-plot(g, mode="circle", vertex.col=myColors, label=network.vertex.names(g), main=main, edge.col="black")
+network::plot.network(g, mode="circle", vertex.col=myColors, label=network::network.vertex.names(g), main=main, edge.col="black")
 
 if(!missing(groupLabels))
 legend("topright", legend=groupLabels, fill=allColors, horiz=FALSE)

@@ -1,5 +1,5 @@
 getLoglikeMixture <-
-function(data, mixture){ 
+function(data, mixture, numConst){ 
 if(missing(data) || missing(mixture))
 stop("data and/or mixture is missing.")
 
@@ -18,9 +18,11 @@ t <- matrix(NA, ncol(data), numGroups)
 for(i in 1:numGraphs)
 t[i,] <- log(mixture$weights) - edges*log((1+exp(-mixture$taus))) - mixture$taus*distances[i,]
 
-LL <- sum(apply(t, 1, logSumExp))
+LL <- sum(apply(t, 1, matrixStats::logSumExp))
 
-BIC <- -2*LL + numGroups * (2+edges) * log(numGraphs)
+if(missing(numConst))
+numConst <- edges/nodes * 10 * log(numGraphs) #(2+edges) * log(numGraphs)
+BIC <- -2*LL + numGroups * numConst
 
 return(list(ll=LL, bic=BIC))
 }

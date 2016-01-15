@@ -4,11 +4,12 @@
 
 \description{This function takes group splits and determines the likelihood of those groups.}
 
-\usage{getLoglikeMixture(data, mixture)}
+\usage{getLoglikeMixture(data, mixture, numConst)}
 
 \arguments{
-  \item{data}{A data frame in which the columns contain a 0/1 value for each node in the rows.}
+  \item{data}{A data frame in which the columns (subjects) contain a 0/1 value for row (Node or Edge).}
   \item{mixture}{The output of the \code{getGibbsMixture} function.}
+  \item{numConst}{The numeric constant to multiply the loglikihood by.}
 }
 
 \value{A list containing the BIC criteria and the log likelihood named bic and ll respectively.}

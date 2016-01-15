@@ -2,17 +2,20 @@
 \alias{getGibbsMixture}
 \title{Group Splitter}
 
-\description{This function splits the data into groups based on the gibbs criteria.}
+\description{This function splits the data into groups based on the Gibbs criteria.}
 
-\usage{getGibbsMixture(data, type, desiredGroups, maxIter = 50, digits = 3, cutoff = .5)}
+\usage{getGibbsMixture(data, type, desiredGroups, maxIter = 50, digits = 3)}
 
 \arguments{
-  \item{data}{A data frame in which the columns contain a 0/1 value for each node in the rows.}
-  \item{type}{The type of graph being used.}
+  \item{data}{A data frame in which the columns (subjects) contain a 0/1 value for row (Node or Edge).}
+  \item{type}{The type of graph being used (adjmatrix or adjmatrixlt).}
   \item{desiredGroups}{The number of groups to test for.}
   \item{maxIter}{The maximum number of iterations to run searching for an optimal split.}
   \item{digits}{The number of digits to round internal values to when checking the stop criteria.}
-  \item{cutoff}{The percentage of 1's a node must have to be kept in the gstar. Default is 0.50.}
+}
+
+\details{
+	Generally this function is not used by itself but in conjunction with getLoglikeMixture.
 }
 
 \value{

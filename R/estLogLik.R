@@ -6,7 +6,7 @@ stop("data, type, g, and/or tau is missing.")
 nodes <- getNumNodes(data, type)
 edges <- getNumEdges(nodes, type)
 normConst <- 1+exp(-tau)    
-normConst <- ifelse(normConst==0, .Machine$double.xmin, normConst) #Adjust normConst if it is 0
+###normConst <- ifelse(normConst==0, .Machine$double.xmin, normConst) #Adjust normConst if it is 0
 
 if(!is.null(dim(g))){ #Check gstar is a single vector or matrix
 distToGStar <- NULL

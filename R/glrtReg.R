@@ -1,9 +1,9 @@
 glrtReg <-
-function(data, type, groups, cutoff=.5){
-regCoeffHA <- glmReg(data, type, groups, cutoff)
+function(data, type, groups){
+regCoeffHA <- glmReg(data, type, groups)
 loglikHA <- regCoeffHA$loglik
 
-regCoeffH0 <- glmReg(data, type, rep(0, ncol(data)), cutoff)
+regCoeffH0 <- glmReg(data, type, rep(0, ncol(data)))
 loglikH0 <- regCoeffH0$loglik
 
 glrt <- 2 * (loglikHA-loglikH0)

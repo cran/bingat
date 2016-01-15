@@ -8,7 +8,7 @@
 
 \arguments{
   \item{x, y}{Vectors of the same length that contain 1's and 0's.}
-  \item{type}{The type of graph being compared. See 'Details'}
+  \item{type}{The type of graph being used (adjmatrix or adjmatrixlt). See 'Details'}
   \item{method}{The distance metric to use, currently only "hamming" is supported.}
 }
 

@@ -1,5 +1,5 @@
 getGibbsMixture <-
-function(data, type, desiredGroups, maxIter=50, digits=3, cutoff=.5){ 
+function(data, type, desiredGroups, maxIter=50, digits=3){ 
 if(missing(data) || missing(desiredGroups) || missing(type))
 stop("data, type, and/or desiredGroups is missing.")
 
@@ -23,7 +23,7 @@ converge <- NA
 #Find the starting gstars/tau/weights for the given groups
 for(j in 1:desiredGroups){
 weights[j] <- sum(groups==j) / length(groups)
-gstars[[j]] <- estGStar(data[, groups==j, drop=FALSE], cutoff) 
+gstars[[j]] <- estGStar(data[, groups==j, drop=FALSE]) 
 taus[j] <- estTau(data[, groups==j, drop=FALSE], type, gstars[[j]])
 }
 
@@ -59,7 +59,7 @@ for(j in 1:desiredGroups){
 weights2[j] <- sum(pij[,j]) / ncol(data)
 gnum <- apply(t(data)*pij[,j], 2, sum)
 gdem <- sum(pij[,j])
-gstars2[[j]] <- ifelse(gnum/gdem > cutoff, 1, 0)  
+gstars2[[j]] <- ifelse(gnum/gdem > .5, 1, 0)  
 distj <- apply(data, 2, function(x){calcDistance(x, gstars2[[j]], type)})
 
 tnum <- sum(pij[,j] * distj)
@@ -81,7 +81,7 @@ wcheck <- wcheck + as.numeric(round(weights[j], digits) != round(weights2[j], di
 }
 
 if(iter == maxIter){
-warning(sprintf("EM algorithm did not converge with %s iterations", as.character(maxIter)))
+warning(sprintf("EM algorithm did not converge on %s groups with %s iterations", as.character(desiredGroups), as.character(maxIter)))
 converge <- FALSE
 }
 

@@ -1,6 +1,6 @@
 estMLE <-
-function(data, type, cutoff = .5){
-gstar <- estGStar(data, cutoff)
+function(data, type){
+gstar <- estGStar(data)
 tau <- estTau(data, type, gstar)
 
 return(list(gstar=gstar, tau=tau))

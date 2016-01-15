@@ -8,7 +8,7 @@
 
 \arguments{
   \item{nodes}{The number of individual nodes in a given graph.}
-  \item{type}{The type of graph being used.}
+  \item{type}{The type of graph being used (adjmatrix or adjmatrixlt).}
 }
 
 \value{The number of edges between individual nodes in the given graph.}

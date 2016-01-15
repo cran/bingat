@@ -8,7 +8,7 @@
 
 \arguments{
   \item{data}{A vector of a single graph.}
-  \item{type}{The type of graph being used.}
+  \item{type}{The type of graph being used (adjmatrix or adjmatrixlt).}
   \item{main}{The title for the plot.}
   \item{labels}{A vector which contains the names for each node.}
   \item{groupCounts}{A vector which contains the number of nodes in each group of nodes.}

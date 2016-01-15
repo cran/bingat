@@ -1,7 +1,7 @@
 glmReg <-
-function(data, type, groups, cutoff=.5){
+function(data, type, groups){
 if(dim(table(groups)) != 2){
-gstar <- estGStar(data, cutoff)
+gstar <- estGStar(data)
 b0 <- gstar
 b0b1 <- NULL
 b1 <- NULL
@@ -9,12 +9,9 @@ hammingError <- NULL
 tau <- estTau(data, type, gstar)
 loglik <- estLogLik(data, type, gstar, tau)
 }else{
-if(max(groups) != 1 || min(groups) != 0)
-stop("'groups' must use 0 and 1 to denote groups.")
-
 #Estimate the gstars for each group
-b0 <- estGStar(data[,groups==0], cutoff)  
-b0b1 <- estGStar(data[,groups==1], cutoff)  
+b0 <- estGStar(data[,groups==unique(groups)[1]])  
+b0b1 <- estGStar(data[,groups==unique(groups)[2]])  
 b1 <- xor(b0, b0b1)*1
 
 index <- as.matrix(1:length(groups))

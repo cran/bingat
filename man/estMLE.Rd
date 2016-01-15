@@ -4,12 +4,11 @@
 
 \description{This function estimates the MLE parameters g-star and tau for a given set of graphs.}
 
-\usage{estMLE(data, type, cutoff = .5)}
+\usage{estMLE(data, type)}
 
 \arguments{
-  \item{data}{A data frame in which the columns contain a 0/1 value for each node in the rows.}
-  \item{type}{The type of graph being used.}
-  \item{cutoff}{The percentage of 1's a node must have to be kept in the gstar. Default is 0.50.}
+  \item{data}{A data frame in which the columns (subjects) contain a 0/1 value for row (Node or Edge).}
+  \item{type}{The type of graph being used (adjmatrix or adjmatrixlt).}
 }
 
 \details{

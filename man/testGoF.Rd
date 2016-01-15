@@ -4,14 +4,14 @@
 
 \description{This function tests the goodness of fit for given a set of graphs.}
 
-\usage{testGoF(data, type, plot = TRUE, cutoff = .5, main)}
+\usage{testGoF(data, type, numSims = 10, plot = TRUE, main)}
 
 \arguments{
-  \item{data}{A data frame in which the columns contain a 0/1 value for each node in the rows.}
-  \item{type}{The type of graph being used.}
+  \item{data}{A data frame in which the columns (subjects) contain a 0/1 value for row (Node or Edge).}
+  \item{type}{The type of graph being used (adjmatrix or adjmatrixlt).}
+  \item{numSims}{Number of simulations for Monte Carlo estimation of p-value(ideally, 1000 or more). Ignored if Chi-Square method is used.}
   \item{plot}{A boolean to create a plot of the results or not.}
-  \item{cutoff}{The percentage of 1's a node must have to be kept in the gstar. Default is 0.50.}
-  \item{main}{The title for the plot if applicable.}
+  \item{main}{A title for the plot.}
 }
 
 \value{
@@ -25,5 +25,6 @@
 \examples{
 	data(braingraphs)
 	
-	gof <- testGoF(braingraphs, "adjMatrix")
+	numSims <- 1 ### This is set low for speed
+	braingof <- testGoF(braingraphs, "adjMatrix", numSims)
 }
